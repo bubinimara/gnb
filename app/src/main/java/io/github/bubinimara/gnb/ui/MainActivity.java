@@ -30,7 +30,9 @@ public class MainActivity extends BaseActivity {
     }
 
     public void onTransactionItemClicked(String transaction) {
-        Toast.makeText(this,"Main Item Clicked "+transaction,Toast.LENGTH_SHORT)
-                .show();
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("transaction")
+                .replace(R.id.content,TransactionFragment.newInstance(transaction),null)
+                .commit();
     }
 }

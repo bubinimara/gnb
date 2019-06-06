@@ -1,5 +1,6 @@
 package io.github.bubinimara.gnb;
 
+import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -29,6 +30,19 @@ public class Interactor {
                 }
             }
             return transactionNames;
+        });
+    }
+
+    public LiveData<List<Transaction>> findTransactionByName(@NonNull String name){
+        return Transformations.map(repository.getTransactions(),(transactions)->{
+            List<Transaction> result = new ArrayList<>();
+            for (Transaction t:transactions
+            ) {
+                if(name.equals(t.getSku())){
+                    result.add(t);
+                }
+            }
+           return result;
         });
     }
 }

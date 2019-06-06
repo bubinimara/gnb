@@ -17,7 +17,7 @@ public class TransactionsListViewModel extends ViewModel {
     }
 
     public static class Factory implements ViewModelProvider.Factory {
-        Interactor interactor;
+        private Interactor interactor;
 
         public Factory(Interactor interactor) {
             this.interactor = interactor;

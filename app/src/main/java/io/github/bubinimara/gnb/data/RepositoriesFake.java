@@ -17,14 +17,14 @@ public class RepositoriesFake implements Repository {
     @Override
     public LiveData<List<Transaction>> getTransactions() {
         List<Transaction> transactions = new ArrayList<>();
-        transactions.add(new Transaction("skuA",null,null));
-        transactions.add(new Transaction("skuB",null,null));
-        transactions.add(new Transaction("skuA",null,null));
-        transactions.add(new Transaction("skuC",null,null));
-        transactions.add(new Transaction("skuC",null,null));
-        transactions.add(new Transaction("skuA",null,null));
-        transactions.add(new Transaction("skuD",null,null));
-        transactions.add(new Transaction("skuD",null,null));
+        transactions.add(new Transaction("skuA","1.33","EUR"));
+        transactions.add(new Transaction("skuB","4.44","CUD"));
+        transactions.add(new Transaction("skuA","3.12","EUR"));
+        transactions.add(new Transaction("skuC","1.5","EUR"));
+        transactions.add(new Transaction("skuC","11.2","EUR"));
+        transactions.add(new Transaction("skuA","1.2","EUR"));
+        transactions.add(new Transaction("skuD","2.2","CUD"));
+        transactions.add(new Transaction("skuD","1.2","CUD"));
         MutableLiveData<List<Transaction>> result = new MutableLiveData<>();
         result.postValue(transactions);
         return result;

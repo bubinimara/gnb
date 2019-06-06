@@ -22,7 +22,7 @@ import io.github.bubinimara.gnb.model.Transaction;
 
 public class TransactionsListFragment extends BaseFragment {
 
-    private TransactionAdapter adapter;
+    private TransactionNameAdapter adapter;
     private Interactor interactor;
 
     public interface Listener{
@@ -42,7 +42,7 @@ public class TransactionsListFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        adapter = new TransactionAdapter(context);
+        adapter = new TransactionNameAdapter(context);
         interactor = new Interactor(new RepositoriesFake());
     }
 
@@ -63,7 +63,7 @@ public class TransactionsListFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //adapter.setItemListener((TransactionAdapter.ItemListener) getActivity());
+        //adapter.setItemListener((TransactionNameAdapter.ItemListener) getActivity());
         mViewModel = ViewModelProviders.of(this,factory)
                 .get(TransactionsListViewModel.class);
 
@@ -75,7 +75,7 @@ public class TransactionsListFragment extends BaseFragment {
         adapter.setData(transactionNames);
     }
 
-    public void setItemListener(TransactionAdapter.ItemListener listener){
+    public void setItemListener(TransactionNameAdapter.ItemListener listener){
         adapter.setItemListener(listener);
     }
 

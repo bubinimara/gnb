@@ -17,20 +17,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.bubinimara.gnb.R;
+import io.github.bubinimara.gnb.model.Transaction;
 
 /**
  * Created by davide.
  */
-public class TransactionNameAdapter extends  RecyclerView.Adapter<TransactionNameAdapter.Holder> {
+public class TransactionAdapter extends  RecyclerView.Adapter<TransactionAdapter.Holder> {
     public interface ItemListener {
-        void onTransactionItemClicked(String transaction);
+        void onTransactionItemClicked(Transaction transaction);
     }
 
-    private final List<String> data;
+    private final List<Transaction> data;
     private LayoutInflater inflater;
     private ItemListener itemListener;
 
-    public TransactionNameAdapter(@NonNull Context context) {
+    public TransactionAdapter(@NonNull Context context) {
         data = new ArrayList<>();
         inflater = LayoutInflater.from(context);
     }
@@ -43,7 +44,7 @@ public class TransactionNameAdapter extends  RecyclerView.Adapter<TransactionNam
         this.itemListener = itemListener;
     }
 
-    public void setData(@NonNull Collection<String> transactionNames){
+    public void setData(@NonNull Collection<Transaction> transactionNames){
         data.clear();
         data.addAll(transactionNames);
         // todo: notify insert and remove
@@ -62,7 +63,7 @@ public class TransactionNameAdapter extends  RecyclerView.Adapter<TransactionNam
         holder.set(getItem(position));
     }
 
-    private String getItem(int position) {
+    private Transaction getItem(int position) {
         return data.get(position);
     }
 
@@ -76,6 +77,7 @@ public class TransactionNameAdapter extends  RecyclerView.Adapter<TransactionNam
         TextView textView;
 
         private final ItemListener listener;
+        private Transaction transaction;
 
         Holder(@NonNull View view, ItemListener listener) {
             super(view);
@@ -83,12 +85,13 @@ public class TransactionNameAdapter extends  RecyclerView.Adapter<TransactionNam
             ButterKnife.bind(this, view);
         }
 
-        void set(String name){
-            textView.setText(name);
+        void set(Transaction transaction){
+            this.transaction = transaction;
+            textView.setText(transaction.getAmount());
         }
 
-        private String get() {
-            return textView.getText().toString();
+        private Transaction get() {
+            return transaction;
         }
 
         @OnClick(R.id.list_item)
