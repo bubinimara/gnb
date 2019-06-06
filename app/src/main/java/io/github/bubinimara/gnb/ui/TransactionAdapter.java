@@ -23,12 +23,25 @@ import io.github.bubinimara.gnb.R;
  * Created by davide.
  */
 public class TransactionAdapter  extends  RecyclerView.Adapter<TransactionAdapter.Holder> {
+    public interface ItemListener {
+        void onTransactionItemClicked(String transaction);
+    }
+
     private final List<String> data;
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
+    private ItemListener itemListener;
 
     public TransactionAdapter(@NonNull Context context) {
         data = new ArrayList<>();
         inflater = LayoutInflater.from(context);
+    }
+
+    public ItemListener getItemListener() {
+        return itemListener;
+    }
+
+    public void setItemListener(ItemListener itemListener) {
+        this.itemListener = itemListener;
     }
 
     public void setData(@NonNull Collection<String> transactionNames){
@@ -42,7 +55,7 @@ public class TransactionAdapter  extends  RecyclerView.Adapter<TransactionAdapte
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.transaction_listitem, parent, false);
-        return new Holder(view);
+        return new Holder(view, itemListener);
     }
 
     @Override
@@ -63,8 +76,11 @@ public class TransactionAdapter  extends  RecyclerView.Adapter<TransactionAdapte
         @BindView(R.id.text)
         TextView textView;
 
-        Holder(@NonNull View view) {
+        private final ItemListener listener;
+
+        Holder(@NonNull View view, ItemListener listener) {
             super(view);
+            this.listener = listener;
             ButterKnife.bind(this, view);
         }
 
@@ -78,7 +94,9 @@ public class TransactionAdapter  extends  RecyclerView.Adapter<TransactionAdapte
 
         @OnClick(R.id.list_item)
         void onListItemClicked(){
-            Toast.makeText(textView.getContext(),"Cliecked "+ get(),Toast.LENGTH_SHORT).show();
+            if (listener!=null) {
+                listener.onTransactionItemClicked(get());
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package io.github.bubinimara.gnb.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import io.github.bubinimara.gnb.model.Transaction;
 public class TransactionsListFragment extends BaseFragment {
 
     private TransactionAdapter adapter;
+    private Interactor interactor;
 
     public interface Listener{
         void onTransactionSelected(Transaction transaction);
@@ -38,9 +40,10 @@ public class TransactionsListFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        adapter = new TransactionAdapter(getContext());
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        adapter = new TransactionAdapter(context);
+        interactor = new Interactor(new RepositoriesFake());
     }
 
     @Override
@@ -54,21 +57,26 @@ public class TransactionsListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        factory = new TransactionsListViewModel.Factory(new Interactor(new RepositoriesFake()));
-
+        factory = new TransactionsListViewModel.Factory(interactor);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //adapter.setItemListener((TransactionAdapter.ItemListener) getActivity());
         mViewModel = ViewModelProviders.of(this,factory)
                 .get(TransactionsListViewModel.class);
+
         mViewModel.transactionsNames.observe(this,this::onDataChanged);
 
     }
 
     private void onDataChanged(List<String> transactionNames) {
         adapter.setData(transactionNames);
+    }
+
+    public void setItemListener(TransactionAdapter.ItemListener listener){
+        adapter.setItemListener(listener);
     }
 
 }
