@@ -15,7 +15,7 @@ public class TransactionsListViewModel extends ViewModel {
     public TransactionsListViewModel(Interactor interactor) {
         transactionsNames = interactor.getAllTransactionNames();
     }
-    
+
     public static class Factory implements ViewModelProvider.Factory {
         Interactor interactor;
 

@@ -1,23 +1,22 @@
 package io.github.bubinimara.gnb.ui;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import butterknife.BindView;
+import io.github.bubinimara.gnb.Interactor;
 import io.github.bubinimara.gnb.R;
+import io.github.bubinimara.gnb.data.RepositoriesFake;
 import io.github.bubinimara.gnb.model.Transaction;
 
 public class TransactionsListFragment extends BaseFragment {
@@ -29,9 +28,10 @@ public class TransactionsListFragment extends BaseFragment {
     }
 
     @BindView(R.id.recycler_view)
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
 
     private TransactionsListViewModel mViewModel;
+    private TransactionsListViewModel.Factory factory;
 
     public static TransactionsListFragment newInstance() {
         return new TransactionsListFragment();
@@ -54,14 +54,16 @@ public class TransactionsListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mViewModel.transactionsNames.observe(this,this::onDataChanged);
+        factory = new TransactionsListViewModel.Factory(new Interactor(new RepositoriesFake()));
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this)
+        mViewModel = ViewModelProviders.of(this,factory)
                 .get(TransactionsListViewModel.class);
+        mViewModel.transactionsNames.observe(this,this::onDataChanged);
 
     }
 
