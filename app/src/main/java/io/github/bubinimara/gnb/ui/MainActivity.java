@@ -11,5 +11,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content,TransactionsListFragment.newInstance())
+                    .commit();
+        }
     }
 }

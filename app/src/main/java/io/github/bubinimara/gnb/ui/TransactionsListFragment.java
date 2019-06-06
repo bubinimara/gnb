@@ -13,8 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.github.bubinimara.gnb.R;
+import io.github.bubinimara.gnb.model.Transaction;
 
 public class TransactionsListFragment extends Fragment {
+
+    public interface Listener{
+        void onTransactionSelected(Transaction transaction);
+    }
 
     private TransactionsListViewModel mViewModel;
 
