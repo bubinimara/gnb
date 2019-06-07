@@ -2,6 +2,9 @@ package io.github.bubinimara.gnb.ui;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,12 +14,20 @@ import io.github.bubinimara.gnb.Interactor;
 import io.github.bubinimara.gnb.model.Transaction;
 
 public class TransactionViewModel extends ViewModel {
+    MediatorLiveData<List<Transaction>> transactionsLiveData;
+    MutableLiveData<String> totalLiveData;
 
-
-    LiveData<List<Transaction>> transactionsLiveData;
 
     public TransactionViewModel(Interactor interactor,String name) {
-        transactionsLiveData = interactor.findTransactionByName(name);
+        transactionsLiveData = new MediatorLiveData<>();
+        totalLiveData = new MutableLiveData<>();
+        transactionsLiveData.addSource(interactor.findTransactionByName(name), new Observer<List<Transaction>>() {
+            @Override
+            public void onChanged(List<Transaction> transactions) {
+                transactionsLiveData.postValue(transactions);
+                totalLiveData.postValue(interactor.calculateTotalTransactions(transactions));
+            }
+        });
     }
 
     public static class Factory implements ViewModelProvider.Factory{
