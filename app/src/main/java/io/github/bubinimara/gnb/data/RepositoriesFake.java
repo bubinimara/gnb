@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.github.bubinimara.gnb.Repository;
 import io.github.bubinimara.gnb.model.Rate;
+import io.github.bubinimara.gnb.model.RateList;
 import io.github.bubinimara.gnb.model.Transaction;
 
 /**
@@ -36,9 +37,9 @@ public class RepositoriesFake implements Repository {
     }
 
     @Override
-    public LiveData<List<Rate>> getRates() {
-        MutableLiveData<List<Rate>> result = new MutableLiveData<>();
-        List<Rate> rates = new ArrayList<>();
+    public LiveData<RateList> getRates() {
+        MutableLiveData<RateList> result = new MutableLiveData<>();
+        RateList rates = new RateList();
         rates.add(new Rate("EUR","CUD","2"));
         rates.add(new Rate("CUD","EUR","1"));
         rates.add(new Rate("EUR","USD","2"));
