@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import io.github.bubinimara.gnb.model.Rate;
 import io.github.bubinimara.gnb.model.RateList;
 import io.github.bubinimara.gnb.model.Transaction;
 
@@ -13,8 +12,8 @@ import io.github.bubinimara.gnb.model.Transaction;
  */
 public interface Repository {
     LiveData<List<Transaction>> getTransactions();
-    LiveData<Transaction> getTransactionById(String transactionId);
+    //LiveData<Transaction> getTransactionById(String transactionId);
 
     LiveData<RateList> getRates();
-    LiveData<Rate> getRateById(String rateId);
+    //LiveData<Rate> getRateById(String rateId);
 }

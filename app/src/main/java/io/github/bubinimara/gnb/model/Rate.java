@@ -1,5 +1,9 @@
 package io.github.bubinimara.gnb.model;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 /**
  * Created by davide.
  */
@@ -30,7 +34,14 @@ public class Rate {
         return new Rate(to,from,exchangeRate());
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return to+" "+from+" "+rate;
+    }
+
     protected String exchangeRate(){
+        Log.d("MYDEBUG", "exchangeRate: "+toString());
         try {
             float currentRate = Float.parseFloat(rate);
             return String.valueOf(1/currentRate);

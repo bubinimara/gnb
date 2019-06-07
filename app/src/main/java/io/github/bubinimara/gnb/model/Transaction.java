@@ -1,5 +1,7 @@
 package io.github.bubinimara.gnb.model;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by davide.
  */
@@ -24,5 +26,11 @@ public class Transaction {
 
     public String getCurrency() {
         return currency;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return sku + " " + amount + " "+currency;
     }
 }

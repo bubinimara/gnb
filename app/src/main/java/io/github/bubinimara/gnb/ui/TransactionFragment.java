@@ -20,6 +20,7 @@ import butterknife.BindView;
 import io.github.bubinimara.gnb.Interactor;
 import io.github.bubinimara.gnb.R;
 import io.github.bubinimara.gnb.data.RepositoriesFake;
+import io.github.bubinimara.gnb.data.RepositoryImpl;
 import io.github.bubinimara.gnb.model.Transaction;
 
 public class TransactionFragment extends BaseFragment {
@@ -56,7 +57,7 @@ public class TransactionFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        interactor = new Interactor(new RepositoriesFake());
+        interactor = new Interactor(RepositoryImpl.getInstance());
         transactionName = getArguments().getString(ARG_NAME);
         viemodelFactory = new TransactionViewModel.Factory(interactor,transactionName);
     }

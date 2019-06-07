@@ -18,6 +18,7 @@ import butterknife.BindView;
 import io.github.bubinimara.gnb.Interactor;
 import io.github.bubinimara.gnb.R;
 import io.github.bubinimara.gnb.data.RepositoriesFake;
+import io.github.bubinimara.gnb.data.RepositoryImpl;
 import io.github.bubinimara.gnb.model.Transaction;
 
 public class TransactionsListFragment extends BaseFragment {
@@ -43,7 +44,7 @@ public class TransactionsListFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         adapter = new TransactionNameAdapter(context);
-        interactor = new Interactor(new RepositoriesFake());
+        interactor = new Interactor(RepositoryImpl.getInstance());
     }
 
     @Override

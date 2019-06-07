@@ -32,11 +32,6 @@ public class RepositoriesFake implements Repository {
     }
 
     @Override
-    public LiveData<Transaction> getTransactionById(String transactionId) {
-        return null;
-    }
-
-    @Override
     public LiveData<RateList> getRates() {
         MutableLiveData<RateList> result = new MutableLiveData<>();
         RateList rates = new RateList();
@@ -48,8 +43,4 @@ public class RepositoriesFake implements Repository {
         return result;
     }
 
-    @Override
-    public LiveData<Rate> getRateById(String rateId) {
-        return null;
-    }
 }
