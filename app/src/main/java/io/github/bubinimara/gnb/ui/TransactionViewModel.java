@@ -15,18 +15,23 @@ import io.github.bubinimara.gnb.model.Transaction;
 
 public class TransactionViewModel extends ViewModel {
     MediatorLiveData<List<Transaction>> transactionsLiveData;
-    MutableLiveData<String> totalLiveData;
+    MediatorLiveData<String> totalLiveData;
 
 
     public TransactionViewModel(Interactor interactor,String name) {
         transactionsLiveData = new MediatorLiveData<>();
-        totalLiveData = new MutableLiveData<>();
-        transactionsLiveData.addSource(interactor.findTransactionByName(name), new Observer<List<Transaction>>() {
-            @Override
-            public void onChanged(List<Transaction> transactions) {
-                transactionsLiveData.postValue(transactions);
-                totalLiveData.postValue(interactor.calculateTotalTransactions(transactions));
-            }
+        totalLiveData = new MediatorLiveData<>();
+        transactionsLiveData.addSource(interactor.findTransactionByName(name), transactions -> {
+            transactionsLiveData.postValue(transactions);
+            LiveData<String> totalTransaction = interactor.getTotalTransaction("EUR", transactions);
+            totalLiveData.addSource(totalTransaction
+                    , s -> {
+                        totalLiveData.removeSource(totalTransaction);
+                        totalLiveData.postValue(s);
+                    });
+
+
+
         });
     }
 

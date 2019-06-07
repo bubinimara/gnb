@@ -23,7 +23,7 @@ public class RepositoriesFake implements Repository {
         transactions.add(new Transaction("skuC","1.5","EUR"));
         transactions.add(new Transaction("skuC","11.2","EUR"));
         transactions.add(new Transaction("skuA","1.2","EUR"));
-        transactions.add(new Transaction("skuD","2.2","CUD"));
+        transactions.add(new Transaction("skuD","2.2","USD"));
         transactions.add(new Transaction("skuD","1.2","CUD"));
         MutableLiveData<List<Transaction>> result = new MutableLiveData<>();
         result.postValue(transactions);
@@ -37,7 +37,14 @@ public class RepositoriesFake implements Repository {
 
     @Override
     public LiveData<List<Rate>> getRates() {
-        return null;
+        MutableLiveData<List<Rate>> result = new MutableLiveData<>();
+        List<Rate> rates = new ArrayList<>();
+        rates.add(new Rate("EUR","CUD","2"));
+        rates.add(new Rate("CUD","EUR","1"));
+        rates.add(new Rate("EUR","USD","2"));
+
+        result.postValue(rates);
+        return result;
     }
 
     @Override

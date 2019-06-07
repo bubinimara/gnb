@@ -31,6 +31,8 @@ public class TransactionFragment extends BaseFragment {
 
     @BindView(R.id.text_title)
     TextView title;
+    @BindView(R.id.text_amount)
+    TextView amount;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
@@ -70,6 +72,12 @@ public class TransactionFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this,viemodelFactory).get(TransactionViewModel.class);
         mViewModel.transactionsLiveData.observe(this,this::onDataChanged);
+        mViewModel.totalLiveData.observe(this,this::onDataChanged);
+
+    }
+
+    private void onDataChanged(String total) {
+        amount.setText(total);
     }
 
     @Override

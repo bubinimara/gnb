@@ -1,8 +1,8 @@
 package io.github.bubinimara.gnb;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
@@ -48,13 +48,17 @@ public class Interactor {
         });
     }
 
-    //todo: Specify Behavior Logic on error - throw,skip, ... etc
-    public LiveData<Rate> findRateByCode(String from,String to){
+    public LiveData<List<Rate>> getAllRates(){
+        return repository.getRates();
+    }
+
+    public LiveData<Rate> findRate(String from,String to){
         return Transformations.map(repository.getRates(),(rates)->{
             return findExchangeRate(rates,from, to);
         });
     }
 
+    //todo: Specify Behavior Logic on error - throw,skip, ... etc
     private Rate findExchangeRate(List<Rate> rates,String from, String to) {
         Rate alternative = new Rate(from,to,"0");
         for (Rate r : rates) {
@@ -66,6 +70,13 @@ public class Interactor {
 
         }
         return alternative.invertRate();
+    }
+
+    public LiveData<String> getTotalTransaction(String currency,List<Transaction> transactions){
+        return Transformations.map(repository.getRates(),(rates)->{
+            return calculateTotalTransactions(currency,rates,transactions);
+        });
+
     }
 
     public String calculateTotalTransactions(String currency,List<Rate> rates,List<Transaction> transactions) {
@@ -85,14 +96,22 @@ public class Interactor {
             this.result = 0;
         }
 
-        public void sum(@NonNull Transaction transaction){
-            String tc;
-            if(!transaction.getCurrency().equals(currency)){
-                tc= findExchangeRate(rates,transaction.getCurrency(),currency).getRate();
-            }else {
-                tc = transaction.getCurrency();
+        public Transaction convertToCurrency(Transaction transaction){
+            if(transaction.getCurrency().equals(currency)){
+               return transaction;
             }
+            Rate exchangeRate = findExchangeRate(rates, transaction.getCurrency(), currency);
+
+            float amount = Float.parseFloat(transaction.getAmount());
+            float rate = Float.parseFloat(exchangeRate.getRate());
+            String convertedAmount = String.valueOf(amount*rate);
+
+            return  new Transaction(transaction.getSku(),convertedAmount,currency);
+        }
+
+        public void sum(@NonNull Transaction transaction){
             try {
+                String tc = convertToCurrency(transaction).getAmount();
                 result+= Float.parseFloat(tc);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -124,7 +143,6 @@ public class Interactor {
                 }else if(to.equals(r.getFrom()) && from.equals(r.getTo())){
                     alternative = r;
                 }
-
             }
             return alternative.invertRate();
         }
