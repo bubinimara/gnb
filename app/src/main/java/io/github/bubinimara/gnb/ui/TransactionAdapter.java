@@ -54,7 +54,7 @@ public class TransactionAdapter extends  RecyclerView.Adapter<TransactionAdapter
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.transaction_listitem, parent, false);
+        View view = inflater.inflate(R.layout.transactions_list_listitem, parent, false);
         return new Holder(view, itemListener);
     }
 
@@ -73,8 +73,11 @@ public class TransactionAdapter extends  RecyclerView.Adapter<TransactionAdapter
     }
 
     static class Holder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text)
-        TextView textView;
+        @BindView(R.id.text_amount)
+        TextView textViewAmount;
+
+        @BindView(R.id.text_currency)
+        TextView textViewCurrency;
 
         private final ItemListener listener;
         private Transaction transaction;
@@ -87,7 +90,8 @@ public class TransactionAdapter extends  RecyclerView.Adapter<TransactionAdapter
 
         void set(Transaction transaction){
             this.transaction = transaction;
-            textView.setText(transaction.getAmount());
+            textViewAmount.setText(transaction.getAmount());
+            textViewCurrency.setText(transaction.getCurrency());
         }
 
         private Transaction get() {

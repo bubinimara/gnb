@@ -8,6 +8,7 @@
     <TextView
         style="@style/TextAppearance.AppCompat.Medium"
         android:gravity="center"
+        android:layout_margin="8dp"
         android:padding="8dp"
         android:id="@+id/text"
         android:layout_width="match_parent"
