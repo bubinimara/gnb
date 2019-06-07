@@ -5,12 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.TransactionFragment">
 
+
     <TextView
         android:id="@+id/text_title"
+        android:layout_margin="8dp"
+        android:padding="8dp"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:gravity="center"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -23,15 +27,26 @@
 
     <LinearLayout
         android:id="@+id/transaction_bottom"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:padding="8dp">
         <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:padding="8dp"
+            android:text="TOTAL IN EURO "
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:padding="8dp"
             android:id="@+id/text_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bottom content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
 
 </RelativeLayout>
