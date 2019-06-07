@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.github.bubinimara.gnb.model.RateList;
 import io.github.bubinimara.gnb.model.Transaction;
-import io.github.bubinimara.gnb.model.ops.TransactionOp;
+import io.github.bubinimara.gnb.model.ops.TransactionSum;
 
 /**
  * Created by davide.
@@ -57,9 +57,9 @@ public class Interactor {
     }
 
     private String calculateTotalTransactions(String currency, RateList rates, List<Transaction> transactions) {
-        TransactionOp transactionOp = new TransactionOp(currency,rates);
-        transactionOp.sumAll(transactions);
-        return String.valueOf(transactionOp.getResult());
+        TransactionSum transactionSum = new TransactionSum(currency,rates);
+        transactionSum.sumAll(transactions);
+        return String.valueOf(transactionSum.getResult());
     }
 
 }

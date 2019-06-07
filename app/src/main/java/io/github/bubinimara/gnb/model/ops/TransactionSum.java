@@ -12,33 +12,25 @@ import io.github.bubinimara.gnb.model.Transaction;
 /**
  * Created by davide.
  */
-public class TransactionOp {
+public class TransactionSum {
+    private TransactionRateExchange transactionRateExchange;
     private final RateList rates;
     private final String currency;
     private float result;
 
-    public TransactionOp(String currency, RateList rates) {
+    public TransactionSum(String currency, RateList rates) {
         this.rates = rates;
+        this.transactionRateExchange = new TransactionRateExchange(rates);
         this.currency = currency;
         this.result = 0;
     }
 
-    public Transaction convertToCurrency(Transaction transaction) {
-        if (transaction.getCurrency().equals(currency)) {
-            return transaction;
-        }
-        Rate exchangeRate = rates.findExchangeRate(transaction.getCurrency(), currency);
-
-        float amount = Float.parseFloat(transaction.getAmount());
-        float rate = Float.parseFloat(exchangeRate.getRate());
-        String convertedAmount = String.valueOf(amount * rate);
-
-        return new Transaction(transaction.getSku(), convertedAmount, currency);
-    }
-
     public void sum(@NonNull Transaction transaction) {
         try {
-            String tc = convertToCurrency(transaction).getAmount();
+            String tc =transactionRateExchange
+                    .convertToCurrency(transaction,currency)
+                    .getAmount();
+
             result += Float.parseFloat(tc);
         } catch (NumberFormatException e) {
             e.printStackTrace();
